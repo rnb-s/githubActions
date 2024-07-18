@@ -1,0 +1,17 @@
+name: Tryout Workflow
+on: workflow_dispatch
+jobs:
+  build-job:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Initialize
+        run: echo "Initializing.."
+      - name: Build
+        run: |
+          echo "Building.."
+          echo "Done!"
+  deploy-job:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Deploy
+        run: echo "Deploy."
