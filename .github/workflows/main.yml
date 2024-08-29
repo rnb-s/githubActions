@@ -30,5 +30,14 @@ jobs:
               git commit -am "Added something."
               git push
           fi
+      - name: Current date time
+        uses: kaven-universe/github-action-current-date-time@v1.4.0
+        with:
+          format: "YYYY_MM_DD_HH_mm_ss_SSS"
+        id: current-date-time
+      - name: Print Current date and time
+        run: echo "${{ steps.current-date-time.outputs }}"  
+
+      
 
 
