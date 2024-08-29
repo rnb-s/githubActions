@@ -17,6 +17,7 @@ jobs:
       - name: Deploy
         run: |
           git status 
+          ls
           echo "Deploy."
       - name: Some output
         id : cmdOutput  
