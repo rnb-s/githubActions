@@ -1,5 +1,5 @@
 name: Tryout Workflow
-on: push
+on: workflow_dispatch
 jobs:
   build-job:
     runs-on: ubuntu-24.04
@@ -28,6 +28,7 @@ jobs:
               git config --global user.email "rakesh.bangera@saiesha.us"
               git config --global user.name "Rakesh Bangera"              
               git commit -am "Added something."
+              git push
           fi
 
 
