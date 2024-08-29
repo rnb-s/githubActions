@@ -15,7 +15,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Make some change
-        run : ps -ef > output.txt
+        run : |
+          ps -ef > output.txt
+          git config --global user.email "rakesh.bangera@saiesha.us"
+          git config --global user.name "Rakesh Bangera"
+          git add output.txt
       - name: See status
         run: git status
       - name: check for changes
