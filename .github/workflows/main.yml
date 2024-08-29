@@ -14,15 +14,16 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - name: Deploy
+      - name: check for changes
         run: |
-          git status 
-          ls
-          echo "Deploy."
-      - name: Some output
-        id : cmdOutput  
-        run: |
-          echo "CMD_OUTPUT=$(git status)" >> $GITHUB_OUTPUT 
-      - name: Show the output
-        run: echo "${{ toJSON(steps.cmdOutput.outputs) }}"
+          if git diff --exit-code; then
+              echo "::set-env name=changes_exist::true"
+              echo "True"
+          else
+              echo "::set-env name=changes_exist::false"   
+              echo "False"
+          fi
+      - name: Commit and Push Only if file updated
+        if: env.changes_exist == 'true'
+        run: echo "Yes found a change."
 
