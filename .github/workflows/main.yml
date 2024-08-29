@@ -27,7 +27,7 @@ jobs:
               echo "Commiting the code change."
               git config --global user.email "rakesh.bangera@saiesha.us"
               git config --global user.name "Rakesh Bangera"              
-              git -am "Added something."
+              git commit -am "Added something."
           fi
 
 
