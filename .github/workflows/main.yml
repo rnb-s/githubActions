@@ -19,5 +19,5 @@ jobs:
         id : cmdOutput  
         run: echo "CMD_OUTPUT=$(ls)" >> $GITHUB_OUTPUT 
       - name: Show the output
-        run: echo "${{ steps.cmdOutput.outputs }}"
+        run: echo "${{ toJSON(steps.cmdOutput.outputs) }}"
 
