@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Make some change
         run : |
-          ps -ef > output.txt
+          ps -ef 
       - name: See status
         run: git status
       - name: check for changes
