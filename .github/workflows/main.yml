@@ -17,13 +17,9 @@ jobs:
       - name: check for changes
         run: |
           if git diff --exit-code; then
-              echo "::set-env name=changes_exist::true"
-              echo "True"
+              echo "No code changes."
           else
-              echo "::set-env name=changes_exist::false"   
-              echo "False"
+              echo "Code has changed."
           fi
-      - name: Commit and Push Only if file updated
-        if: env.changes_exist == 'true'
-        run: echo "Yes found a change."
+
 
