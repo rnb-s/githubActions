@@ -1,5 +1,8 @@
 name: Tryout Workflow
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+  push:
+      
 jobs:
   build-job:
     runs-on: ubuntu-24.04
