@@ -17,7 +17,7 @@ jobs:
         run: echo "Deploy."
       - name: Some output
         id : cmdOutput  
-        run: >-
-          echo "::set-output name=CMD_OUTPUT::$(ls)"
+        run: echo "CMD_OUTPUT=$(ls)" >> $GITHUB_OUTPUT 
       - name: Show the output
-        run: echo ${{toJson(steps.cmdOutput.outputs)}}   
+        run: echo "${{ steps.cmdOutput.outputs }}"
+
