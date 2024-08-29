@@ -14,12 +14,17 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+      - name: Make some change
+        run : ps -ef > output.txt
+      - name: See status
+        run: git status
       - name: check for changes
         run: |
           if git diff --exit-code; then
               echo "No code changes."
           else
-              echo "Code has changed."
+              echo "Commiting the code change."
+              git -am "Added something."
           fi
 
 
