@@ -16,8 +16,6 @@ jobs:
         run: |
           echo "Building.."
           echo "Done!"
-      - name: Print github context
-        run: echo ${{ toJSON(github) }}
       - name: Print github refs
         run: echo 'refs = ${{github.ref}}'
   deploy-job:
