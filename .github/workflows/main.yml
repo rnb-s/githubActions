@@ -1,10 +1,13 @@
 name: Tryout Workflow
 on: 
   workflow_dispatch:
-  push:
+  pull_request:
+    branches: ['main', 'staging', 'development']
+    types: ['opened', 'closed']
+
 
 jobs:
-  build-job:
+  build-n-test-job:
     runs-on: ubuntu-24.04
     steps:
       - name: Initialize
@@ -13,11 +16,16 @@ jobs:
         run: |
           echo "Building.."
           echo "Done!"
+      - name: Print github context
+        run: echo ${{ toJSON(github) }}
+      - name: Print github refs
+        run: echo 'refs = ${{github.ref}}'
   deploy-job:
     runs-on: ubuntu-24.04
+    if: github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v4
-      - name: Make some change
+      - name: Make some change.
         run : |
           ps -ef 
       - name: See status
@@ -38,7 +46,7 @@ jobs:
         with:
           format: "YYYY_MM_DD_HH_mm_ss_SSS"
         id: current-date-time
-      - name: Print Current date and time
+      - name: Print Current date and time.
         run: echo "${{ steps.current-date-time.outputs.time }}"  
 
       
