@@ -19,6 +19,7 @@ jobs:
       - name: Print github refs
         run: echo 'refs = ${{github.ref}}'
   deploy-job:
+    needs: build-n-test-job
     runs-on: ubuntu-24.04
     if: github.event.pull_request.merged == true
     steps:
