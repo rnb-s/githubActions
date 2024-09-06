@@ -18,8 +18,11 @@ jobs:
           echo "Done!"
       - name: Print github refs
         run: echo 'refs = ${{github.ref}}'
-  deploy-job:
+  update-job:
     needs: build-n-test-job
+    uses: rnb-s/githubActions/.github/workflows/call.yml@development
+  deploy-job:
+    needs: update-job
     runs-on: ubuntu-24.04
     if: github.event.pull_request.merged == true
     steps:
