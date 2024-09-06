@@ -20,7 +20,7 @@ jobs:
         run: echo 'refs = ${{github.ref}}'
   update-job:
     needs: build-n-test-job
-    uses: rnb-s/githubActions/.github/workflows/call.yml@development
+    uses: ./.github/workflows/call.yml
   deploy-job:
     needs: update-job
     runs-on: ubuntu-24.04
