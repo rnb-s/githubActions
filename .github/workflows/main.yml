@@ -18,9 +18,9 @@ jobs:
           echo "Done!"
       - name: Print github refs
         run: echo 'refs = ${{github.ref}}'
-  update-job:
-    needs: build-n-test-job
-    uses: ./.github/workflows/call.yml
+  # update-job:
+  #   needs: build-n-test-job
+  #   uses: ./.github/workflows/call.yml
   deploy-job:
     needs: update-job
     runs-on: ubuntu-24.04
