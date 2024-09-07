@@ -19,8 +19,13 @@ jobs:
       - name: Print github refs
         run: echo 'refs = ${{github.ref}}'
   update-job:
+    runs-on: ubuntu-24.04
     needs: build-n-test-job
-    uses: ./.github/workflows/call.yml
+    steps:
+      - name: Update
+        run: |
+          echo "Updating.."
+          echo "Done!"    
   deploy-job:
     needs: update-job
     runs-on: ubuntu-24.04
@@ -29,20 +34,24 @@ jobs:
       - uses: actions/checkout@v4
       - name: Make some change.
         run : |
-          ps -ef 
+          ps -ef | grep something > output.txt
       - name: See status
         run: git status
-      - name: check for changes
-        run: |
-          if git diff --exit-code; then
-              echo "No code changes."
-          else
-              echo "Commiting the code change."
-              git config --global user.email "rakesh.bangera@saiesha.us"
-              git config --global user.name "Rakesh Bangera"              
-              git commit -am "Added something."
-              git push
-          fi
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "Index updated via github workflow."
+      # - name: check for changes
+      #   run: |
+      #     if git diff --exit-code; then
+      #         echo "No code changes."
+      #     else
+      #         echo "Commiting the code change."
+      #         git config --global user.email "rakesh.bangera@saiesha.us"
+      #         git config --global user.name "Rakesh Bangera"              
+      #         git commit -am "Added something."
+      #         git push
+      #     fi
       - name: Current date time
         uses: kaven-universe/github-action-current-date-time@v1.4.0
         with:
