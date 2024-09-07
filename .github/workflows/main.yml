@@ -32,6 +32,8 @@ jobs:
     if: github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v4
+      - name: Print PR
+        run: echo '${{toJSON(github.event.pull_request)}}'
       - name: Make some change.
         run : |
           ps -ef | grep something > output.txt
