@@ -30,7 +30,7 @@ jobs:
     needs: update-job
     runs-on: ubuntu-24.04
     if: |
-         ( github.event.pull_request.merged == true && github.event.pull_request.head.ref != 'create-pull-request/patch')
+         ( github.event.pull_request.merged == true && github.event.pull_request.head.ref != 'Automated Index Update PR from main workflow.')
     steps:
       - uses: actions/checkout@v4
       - name: Print PR
@@ -44,6 +44,7 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           commit-message: "Index updated via github workflow."
+          title: "Automated Index Update PR from main workflow."
       # - name: check for changes
       #   run: |
       #     if git diff --exit-code; then
