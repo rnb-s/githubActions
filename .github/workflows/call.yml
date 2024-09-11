@@ -4,6 +4,11 @@ on:
   workflow_call:
 
 jobs:
+  do-nothing-job:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: See status
+        run: echo "Doing Nothing.."
   build-n-merge-job:
     runs-on: ubuntu-24.04
     steps:
@@ -13,14 +18,8 @@ jobs:
           ps -ef | grep something > output.txt
       - name: See status
         run: git status
-      - name: check for changes
-        run: |
-          if git diff --exit-code; then
-              echo "No code changes."
-          else
-              echo "Commiting the code change."
-              git config --global user.email "rakesh.bangera@saiesha.us"
-              git config --global user.name "Rakesh Bangera"              
-              git commit -am "Added something."
-              git push
-          fi
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "Index updated via github workflow."
+          title: "Automated Index Update PR from call workflow."
