@@ -36,6 +36,7 @@ jobs:
       - name: Print PR
         run: echo '${{toJSON(github.event.pull_request)}}'
       - name: Make some change.
+        if: github.ref == 'refs/heads/staging'
         run : |
           ps -ef | grep something > output.txt
       - name: See status
@@ -45,17 +46,6 @@ jobs:
         with:
           commit-message: "Index updated via github workflow."
           title: "Automated Index Update PR from main workflow."
-      # - name: check for changes
-      #   run: |
-      #     if git diff --exit-code; then
-      #         echo "No code changes."
-      #     else
-      #         echo "Commiting the code change."
-      #         git config --global user.email "rakesh.bangera@saiesha.us"
-      #         git config --global user.name "Rakesh Bangera"              
-      #         git commit -am "Added something."
-      #         git push
-      #     fi
       - name: Current date time
         uses: kaven-universe/github-action-current-date-time@v1.4.0
         with:
@@ -63,6 +53,17 @@ jobs:
         id: current-date-time
       - name: Print Current date and time.
         run: echo "${{ steps.current-date-time.outputs.time }}"  
+      - name: Only if development
+        if: github.ref == 'refs/heads/development'
+        run: echo "Only if development."
+      - name: Only if staging
+        if: github.ref == 'refs/heads/staging'
+        run: echo "Only if staging."
+      - name: Only if staging
+        if: github.ref == 'refs/heads/staging' && github.event.pull_request.title != 'Automated Index Update PR from call workflow.'
+        run: echo "Only if staging and PR not call workflow."
+        
+      
 
       
 

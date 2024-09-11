@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: See status
-        run: git status
+        run: echo "Doing Nothing.."
   build-n-merge-job:
     runs-on: ubuntu-24.04
     steps:
