@@ -36,6 +36,7 @@ jobs:
       - name: Print PR
         run: echo '${{toJSON(github.event.pull_request)}}'
       - name: Make some change.
+        if: github.ref == 'refs/heads/staging'
         run : |
           ps -ef | grep something > output.txt
       - name: See status
@@ -55,6 +56,9 @@ jobs:
       - name: Only if development
         if: github.ref == 'refs/heads/development'
         run: echo "Only if development."
+      - name: Only if staging
+        if: github.ref == 'refs/heads/staging'
+        run: echo "Only if staging."
       - name: Only if staging
         if: github.ref == 'refs/heads/staging' && github.event.pull_request.title != 'Automated Index Update PR from call workflow.'
         run: echo "Only if staging and PR not call workflow."
