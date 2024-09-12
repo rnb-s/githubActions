@@ -4,11 +4,6 @@ on:
   workflow_call:
 
 jobs:
-  do-nothing-job:
-    runs-on: ubuntu-24.04
-    steps:
-      - name: See status
-        run: echo "Doing Nothing.."
   build-n-merge-job:
     runs-on: ubuntu-24.04
     steps:
