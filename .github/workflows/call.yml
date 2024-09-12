@@ -1,4 +1,4 @@
-name: Do something Workflow
+name: Call Workflow
 on: 
   workflow_dispatch:
   workflow_call:
