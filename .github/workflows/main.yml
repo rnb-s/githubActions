@@ -1,4 +1,4 @@
-name: Tryout Workflow
+name: Main Workflow
 on: 
   workflow_dispatch:
   pull_request:
@@ -23,7 +23,8 @@ jobs:
     needs: build-n-test
     if: |
          ( github.event.pull_request.merged == true && github.event.pull_request.title != 'Automated Index Update PR from main workflow.' )
-    steps:    
+    steps:
+      - uses: actions/checkout@v4
       - name: Make some change.
         if: (github.event.pull_request.title != 'Automated Index Update PR from call workflow.' && (github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/main'))
         run : |
