@@ -1,4 +1,4 @@
-name: Tryout Workflow
+name: Main Workflow
 on: 
   workflow_dispatch:
   pull_request:
@@ -7,47 +7,66 @@ on:
 
 
 jobs:
-  build-n-test-job:
+  build-n-test:
     runs-on: ubuntu-24.04
     steps:
-      - name: Initialize
-        run: echo "Initializing.."
-      - name: Build
+      - name: Flake8
+        run: echo "Flake8"
+      - name: Test
         run: |
-          echo "Building.."
+          echo "Testing.."
           echo "Done!"
       - name: Print github refs
         run: echo 'refs = ${{github.ref}}'
-  deploy-job:
-    needs: build-n-test-job
+  update-n-create-pkg:
     runs-on: ubuntu-24.04
-    if: github.event.pull_request.merged == true
+    needs: build-n-test
+    if: |
+         ( github.event.pull_request.merged == true && github.event.pull_request.title != 'Automated Index Update PR from main workflow.' )
     steps:
       - uses: actions/checkout@v4
       - name: Make some change.
+        if: (github.event.pull_request.title != 'Automated Index Update PR from call workflow.' && (github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/main'))
         run : |
-          ps -ef 
+            ps -ef | grep something > output.txt
+            echo "Updated index."
       - name: See status
         run: git status
-      - name: check for changes
-        run: |
-          if git diff --exit-code; then
-              echo "No code changes."
-          else
-              echo "Commiting the code change."
-              git config --global user.email "rakesh.bangera@saiesha.us"
-              git config --global user.name "Rakesh Bangera"              
-              git commit -am "Added something."
-              git push
-          fi
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "Index updated via github workflow."
+          title: "Automated Index Update PR from main workflow."
+      - name: Create Package
+        run: echo "Create Package for dev/staging/main"
+  deploy:
+    needs: update-n-create-pkg
+    runs-on: ubuntu-24.04
+    if: |
+         ( github.event.pull_request.merged == true && github.event.pull_request.title != 'Automated Index Update PR from main workflow.' )
+    steps:
+      - uses: actions/checkout@v4
+      # - name: Print PR
+      #   run: echo '${{toJSON(github.event.pull_request)}}'
       - name: Current date time
         uses: kaven-universe/github-action-current-date-time@v1.4.0
         with:
           format: "YYYY_MM_DD_HH_mm_ss_SSS"
         id: current-date-time
-      - name: Print Current date and time.
-        run: echo "${{ steps.current-date-time.outputs.time }}"  
-
+      # - name: Print Current date and time.
+      #   run: echo "${{ steps.current-date-time.outputs.time }}"  
+      - name: Deploy Dev
+        if: github.ref == 'refs/heads/development'
+        run: echo "Deployed ${{ steps.current-date-time.outputs.time }} to dev."
+      - name: Deploy Staging
+        if: github.ref == 'refs/heads/staging'
+        run: echo "Deployed ${{ steps.current-date-time.outputs.time }} to staging."
+      - name: Deploy Prod
+        if: github.ref == 'refs/heads/staging' 
+        run: echo "Deployed ${{ steps.current-date-time.outputs.time }} to Prod."
       
+      # && github.event.pull_request.title != 'Automated Index Update PR from call workflow.'
+
+      #  && github.event.pull_request.title != 'Automated Index Update PR from main workflow.')
 
 
